@@ -88,7 +88,9 @@ func! s:restart(bang)
         endtry
     endif
 
-    call s:system('gvim')
+    " TODO Save window size.
+
+    call s:system('gvim', '-c', printf('winpos %s %s', getwinposx(), getwinposy()))
     execute 'qall'.a:bang
 endfunc
 " }}}
