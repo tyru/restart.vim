@@ -17,6 +17,8 @@ scriptencoding utf-8
 " Usage: {{{
 "   Commands: {{{
 "       :Restart
+"           If modified buffer(s) exist, gVim won't restart.
+"           If you want to quit anyway, add bang(:Restart!).
 "   }}}
 "   Global Variables: {{{
 "       g:restart_command (default: 'Restart')
