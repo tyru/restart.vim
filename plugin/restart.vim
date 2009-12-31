@@ -26,7 +26,6 @@ scriptencoding utf-8
 "   }}}
 " }}}
 " TODO: {{{
-"   - Save winpos and restore it
 "   - Support vim (Is this possible...?)
 " }}}
 "==================================================
