@@ -32,6 +32,11 @@ scriptencoding utf-8
 "==================================================
 " }}}
 
+" NOTE: THIS PLUGIN CAN'T WORK UNDER THE TERMINAL.
+if !has('gui_running')
+    finish
+endif
+
 " Load Once {{{
 if exists('g:loaded_restart') && g:loaded_restart
     finish
@@ -73,11 +78,6 @@ endfunc
 
 " Function to restart {{{
 func! s:restart(bang)
-    if !has('gui_running')
-        call s:warn("can't restart vim, not gvim.")
-        return
-    endif
-
     if a:bang !=# '!'
         try
             bmodified
