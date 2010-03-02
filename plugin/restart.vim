@@ -84,17 +84,24 @@ func! s:system(command, ...)
     return system(join(args, ' '))
 endfunc
 " }}}
+func! s:is_modified() "{{{
+    try
+        bmodified
+        return 1
+    catch
+        return 0
+    endtry
+endfunc "}}}
 
 " Function to restart {{{
 func! s:restart(bang)
-    if a:bang !=# '!'
-        try
-            bmodified
-            call s:warn("modified buffer(s) exist!")
+    let bangged = a:bang ==# '!'
+
+    if s:is_modified()
+        call s:warn("modified buffer(s) exist!")
+        if !bangged
             return
-        catch
-            " nop.
-        endtry
+        endif
     endif
 
     call s:system(
