@@ -18,7 +18,7 @@ scriptencoding utf-8
 " Name: restart.vim
 " Version: 0.0.0
 " Author:  tyru <tyru.exe@gmail.com>
-" Last Change: 2010-01-24.
+" Last Change: 2010-03-02.
 "
 " Description:
 "   Restart your gVim.
@@ -71,8 +71,6 @@ func! s:warn(msg)
     echohl WarningMsg
     echomsg a:msg
     echohl None
-
-    call add(s:debug_errmsg, a:msg)
 endfunc
 " }}}
 " s:warnf {{{
