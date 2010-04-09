@@ -18,7 +18,7 @@ scriptencoding utf-8
 " Name: restart.vim
 " Version: 0.0.0
 " Author:  tyru <tyru.exe@gmail.com>
-" Last Change: 2010-03-02.
+" Last Change: 2010-03-20.
 "
 " Description:
 "   Restart your gVim.
@@ -47,6 +47,9 @@ scriptencoding utf-8
 if !has('gui_running')
     finish
 endif
+
+" TODO
+"  Don't show 'modified buffer(s) ...' when banged
 
 " Load Once {{{
 if exists('g:loaded_restart') && g:loaded_restart
