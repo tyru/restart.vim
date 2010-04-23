@@ -69,25 +69,20 @@ if !exists('g:restart_command')
 endif
 " }}}
 
-" utility functions
-" s:warn {{{
-function! s:warn(msg)
+
+
+function! s:warn(msg) "{{{
     echohl WarningMsg
     echomsg a:msg
     echohl None
-endfunction
-" }}}
-" s:warnf {{{
-function! s:warnf(fmt, ...)
+endfunction "}}}
+function! s:warnf(fmt, ...) "{{{
     call s:warn(call('printf', [a:fmt] + a:000))
-endfunction
-" }}}
-" s:system {{{
-function! s:system(command, ...)
+endfunction "}}}
+function! s:system(command, ...) "{{{
     let args = [a:command] + map(copy(a:000), 'shellescape(v:val)')
     return system(join(args, ' '))
-endfunction
-" }}}
+endfunction "}}}
 function! s:is_modified() "{{{
     try
         bmodified
@@ -97,8 +92,7 @@ function! s:is_modified() "{{{
     endtry
 endfunction "}}}
 
-" Function to restart {{{
-function! s:restart(bang)
+function! s:restart(bang) "{{{
     let bangged = a:bang ==# '!'
 
     if s:is_modified()
@@ -115,8 +109,10 @@ function! s:restart(bang)
     \   '-c', printf('winpos %s %s', getwinposx(), getwinposy()),
     \)
     execute 'qall'.a:bang
-endfunction
-" }}}
+endfunction "}}}
+
+
+
 " Command to restart {{{
 if g:restart_command != ''
     execute 'command! -bang' g:restart_command 'call s:restart("<bang>")'
