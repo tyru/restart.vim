@@ -93,11 +93,9 @@ function! s:is_modified() "{{{
 endfunction "}}}
 
 function! s:restart(bang) "{{{
-    let bangged = a:bang ==# '!'
-
     if s:is_modified()
         call s:warn("modified buffer(s) exist!")
-        if !bangged
+        if !a:bang
             return
         endif
     endif
@@ -108,14 +106,14 @@ function! s:restart(bang) "{{{
     \   '-c', printf('set columns=%d', &columns),
     \   '-c', printf('winpos %s %s', getwinposx(), getwinposy()),
     \)
-    execute 'qall'.a:bang
+    execute 'qall' . (a:bang ? '!' : '')
 endfunction "}}}
 
 
 
 " Command to restart {{{
 if g:restart_command != ''
-    execute 'command! -bang' g:restart_command 'call s:restart("<bang>")'
+    execute 'command! -bang' g:restart_command 'call s:restart(<bang>0)'
 endif
 " }}}
 
