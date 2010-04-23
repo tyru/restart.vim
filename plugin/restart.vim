@@ -71,34 +71,34 @@ endif
 
 " utility functions
 " s:warn {{{
-func! s:warn(msg)
+function! s:warn(msg)
     echohl WarningMsg
     echomsg a:msg
     echohl None
-endfunc
+endfunction
 " }}}
 " s:warnf {{{
-func! s:warnf(fmt, ...)
+function! s:warnf(fmt, ...)
     call s:warn(call('printf', [a:fmt] + a:000))
-endfunc
+endfunction
 " }}}
 " s:system {{{
-func! s:system(command, ...)
+function! s:system(command, ...)
     let args = [a:command] + map(copy(a:000), 'shellescape(v:val)')
     return system(join(args, ' '))
-endfunc
+endfunction
 " }}}
-func! s:is_modified() "{{{
+function! s:is_modified() "{{{
     try
         bmodified
         return 1
     catch
         return 0
     endtry
-endfunc "}}}
+endfunction "}}}
 
 " Function to restart {{{
-func! s:restart(bang)
+function! s:restart(bang)
     let bangged = a:bang ==# '!'
 
     if s:is_modified()
@@ -115,7 +115,7 @@ func! s:restart(bang)
     \   '-c', printf('winpos %s %s', getwinposx(), getwinposy()),
     \)
     execute 'qall'.a:bang
-endfunc
+endfunction
 " }}}
 " Command to restart {{{
 if g:restart_command != ''
