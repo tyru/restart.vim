@@ -18,7 +18,7 @@ scriptencoding utf-8
 " Name: restart.vim
 " Version: 0.0.0
 " Author:  tyru <tyru.exe@gmail.com>
-" Last Change: 2010-03-02.
+" Last Change: 2010-04-23.
 "
 " Description:
 "   Restart your gVim.
@@ -48,6 +48,10 @@ if !has('gui_running')
     finish
 endif
 
+" TODO
+" - Don't show 'modified buffer(s) ...' when banged
+" - Save current options, variables, and so on.
+
 " Load Once {{{
 if exists('g:loaded_restart') && g:loaded_restart
     finish
@@ -65,41 +69,33 @@ if !exists('g:restart_command')
 endif
 " }}}
 
-" utility functions
-" s:warn {{{
-func! s:warn(msg)
+
+
+function! s:warn(msg) "{{{
     echohl WarningMsg
     echomsg a:msg
     echohl None
-endfunc
-" }}}
-" s:warnf {{{
-func! s:warnf(fmt, ...)
+endfunction "}}}
+function! s:warnf(fmt, ...) "{{{
     call s:warn(call('printf', [a:fmt] + a:000))
-endfunc
-" }}}
-" s:system {{{
-func! s:system(command, ...)
+endfunction "}}}
+function! s:system(command, ...) "{{{
     let args = [a:command] + map(copy(a:000), 'shellescape(v:val)')
     return system(join(args, ' '))
-endfunc
-" }}}
-func! s:is_modified() "{{{
+endfunction "}}}
+function! s:is_modified() "{{{
     try
         bmodified
         return 1
     catch
         return 0
     endtry
-endfunc "}}}
+endfunction "}}}
 
-" Function to restart {{{
-func! s:restart(bang)
-    let bangged = a:bang ==# '!'
-
+function! s:restart(bang) "{{{
     if s:is_modified()
         call s:warn("modified buffer(s) exist!")
-        if !bangged
+        if !a:bang
             return
         endif
     endif
@@ -110,12 +106,14 @@ func! s:restart(bang)
     \   '-c', printf('set columns=%d', &columns),
     \   '-c', printf('winpos %s %s', getwinposx(), getwinposy()),
     \)
-    execute 'qall'.a:bang
-endfunc
-" }}}
+    execute 'qall' . (a:bang ? '!' : '')
+endfunction "}}}
+
+
+
 " Command to restart {{{
 if g:restart_command != ''
-    execute 'command! -bang' g:restart_command 'call s:restart("<bang>")'
+    execute 'command! -bar -bang' g:restart_command 'call s:restart(<bang>0)'
 endif
 " }}}
 
