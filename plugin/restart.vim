@@ -49,7 +49,6 @@ if !has('gui_running')
 endif
 
 " TODO
-" - Don't show 'modified buffer(s) ...' when banged
 " - Save current options, variables, and so on.
 
 " Load Once {{{
@@ -93,11 +92,9 @@ function! s:is_modified() "{{{
 endfunction "}}}
 
 function! s:restart(bang) "{{{
-    if s:is_modified()
+    if s:is_modified() && !a:bang
         call s:warn("modified buffer(s) exist!")
-        if !a:bang
-            return
-        endif
+        return
     endif
 
     call s:system(
