@@ -113,7 +113,7 @@ endfunction "}}}
 
 " Command to restart {{{
 if g:restart_command != ''
-    execute 'command! -bang' g:restart_command 'call s:restart(<bang>0)'
+    execute 'command! -bar -bang' g:restart_command 'call s:restart(<bang>0)'
 endif
 " }}}
 
