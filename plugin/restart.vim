@@ -18,7 +18,7 @@ scriptencoding utf-8
 " Name: restart.vim
 " Version: 0.0.0
 " Author:  tyru <tyru.exe@gmail.com>
-" Last Change: 2010-04-23.
+" Last Change: 2010-05-02.
 "
 " Description:
 "   Restart your gVim.
@@ -48,9 +48,6 @@ if !has('gui_running')
     finish
 endif
 
-" TODO
-" - Save current options, variables, and so on.
-
 " Load Once {{{
 if exists('g:loaded_restart') && g:loaded_restart
     finish
@@ -65,6 +62,15 @@ set cpo&vim
 " Global Variables {{{
 if !exists('g:restart_command')
     let g:restart_command = 'Restart'
+endif
+if !exists('g:restart_save_window_values')
+    let g:restart_save_window_values = 1
+endif
+if !exists('g:restart_save_fn')
+    let g:restart_save_fn = []
+endif
+if g:restart_save_window_values
+    call add(g:restart_save_fn, 's:save_window_values')
 endif
 " }}}
 
@@ -97,13 +103,24 @@ function! s:restart(bang) "{{{
         return
     endif
 
-    call s:system(
-    \   'gvim',
-    \   '-c', printf('set lines=%d', &lines),
-    \   '-c', printf('set columns=%d', &columns),
-    \   '-c', printf('winpos %s %s', getwinposx(), getwinposy()),
-    \)
+    let system_args = ['gvim']
+    for Fn in g:restart_save_fn
+        let system_args += ['-c', call(Fn, [])]
+        unlet Fn
+    endfor
+    call call('s:system', system_args)
+
     execute 'qall' . (a:bang ? '!' : '')
+endfunction "}}}
+
+function! s:save_window_values() "{{{
+    return join([
+    \       printf('set lines=%d', &lines),
+    \       printf('set columns=%d', &columns),
+    \       printf('winpos %s %s', getwinposx(), getwinposy()),
+    \   ],
+    \   ' | '
+    \)
 endfunction "}}}
 
 
