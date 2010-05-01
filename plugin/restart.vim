@@ -18,7 +18,7 @@ scriptencoding utf-8
 " Name: restart.vim
 " Version: 0.0.0
 " Author:  tyru <tyru.exe@gmail.com>
-" Last Change: 2010-04-23.
+" Last Change: 2010-04-27.
 "
 " Description:
 "   Restart your gVim.
@@ -84,6 +84,7 @@ function! s:system(command, ...) "{{{
 endfunction "}}}
 function! s:is_modified() "{{{
     try
+        " TODO Boolean value to select whether user switches to modified buffer or not.
         bmodified
         return 1
     catch
