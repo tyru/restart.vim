@@ -16,7 +16,7 @@ scriptencoding utf-8
 " Document {{{
 "==================================================
 " Name: restart.vim
-" Version: 0.0.0
+" Version: 0.0.2
 " Author:  tyru <tyru.exe@gmail.com>
 " Last Change: 2010-05-02.
 "
@@ -25,6 +25,12 @@ scriptencoding utf-8
 "
 " Change Log: {{{
 "   0.0.0: Initial upload
+"   0.0.1:
+"   - Do not restart if modified buffer(s) exist.
+"   - etc.
+"   0.0.2:
+"   - Don't show 'modified buffer(s) ...' when banged.
+"   - Add g:restart_save_window_values, g:restart_save_fn.
 " }}}
 " Usage: {{{
 "   Commands: {{{
