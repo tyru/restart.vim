@@ -35,6 +35,44 @@ scriptencoding utf-8
 "   Global Variables: {{{
 "       g:restart_command (default: 'Restart')
 "           command name to restart gVim.
+"
+"       g:restart_save_window_values (default: 1)
+"           Save window values when restarting gVim.
+"           Saving values are as follows:
+"           - &line
+"           - &columns
+"           - gVim window position (getwinposx(), getwinposy())
+"           Before v0.0.1, restart.vim saves above values.
+"           So this variable is for compatibility.
+"
+"       g:restart_save_fn (default: g:restart_save_fn is true: ['s:save_window_values'], false: [])
+"           This variable saves functions returning ex command.
+"           e.g., in your .vimrc:
+"
+"               function! Hello()
+"                   return 'echomsg "hello"'
+"               endfunction
+"               let g:restart_save_fn = [function('Hello')]
+"
+"           This meaningless example shows "hello" in new starting up gVim.
+"           When g:restart_save_window_values is true,
+"           this variable is ['s:save_window_values'].
+"
+"               function! s:save_window_values() "{{{
+"                   return join([
+"                   \       printf('set lines=%d', &lines),
+"                   \       printf('set columns=%d', &columns),
+"                   \       printf('winpos %s %s', getwinposx(), getwinposy()),
+"                   \   ],
+"                   \   ' | '
+"                   \)
+"               endfunction "}}}
+"
+"          As you can see, this function saves current gVim's:
+"          - &line
+"          - &columns
+"          - getwinposx()
+"          - getwinposy()
 "   }}}
 " }}}
 " TODO: {{{
