@@ -18,7 +18,7 @@ scriptencoding utf-8
 " Name: restart.vim
 " Version: 0.0.2
 " Author:  tyru <tyru.exe@gmail.com>
-" Last Change: 2010-05-02.
+" Last Change: 2010-06-18.
 "
 " Description:
 "   Restart your gVim.
@@ -113,6 +113,10 @@ endif
 if !exists('g:restart_save_fn')
     let g:restart_save_fn = []
 endif
+if !exists('g:restart_vim_progname')
+    let g:restart_vim_progname = v:progname
+endif
+
 if g:restart_save_window_values
     call add(g:restart_save_fn, 's:save_window_values')
 endif
@@ -148,7 +152,7 @@ function! s:restart(bang) "{{{
         return
     endif
 
-    let system_args = ['gvim']
+    let system_args = [g:restart_vim_progname]
     for Fn in g:restart_save_fn
         let system_args += ['-c', call(Fn, [])]
         unlet Fn
