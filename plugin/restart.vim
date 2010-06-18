@@ -114,7 +114,7 @@ if !exists('g:restart_save_fn')
     let g:restart_save_fn = []
 endif
 if !exists('g:restart_vim_progname')
-    let g:restart_vim_progname = v:progname
+    let g:restart_vim_progname = 'gvim'
 endif
 
 if g:restart_save_window_values
