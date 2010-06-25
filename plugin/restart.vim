@@ -18,7 +18,7 @@ scriptencoding utf-8
 " Name: restart.vim
 " Version: 0.0.2
 " Author:  tyru <tyru.exe@gmail.com>
-" Last Change: 2010-06-18.
+" Last Change: 2010-06-25.
 "
 " Description:
 "   Restart your gVim.
@@ -147,8 +147,84 @@ function! s:is_modified() "{{{
         bmodified
         return 1
     catch
-        return 0
+        " Fall through.
     endtry
+
+    for [bufnr, info] in items(s:parse_buffers_info())
+        if info.is_modified
+            return 1
+        endif
+    endfor
+
+    return 0
+endfunction "}}}
+function! s:parse_buffers_info() "{{{
+    " This function is from dumbbuf.vim :)
+
+
+    " redirect output of :ls! to ls_out.
+    redir => ls_out
+    silent ls!
+    redir END
+    let buf_list = split(ls_out, "\n")
+
+    " see ':help :ls' about regexp.
+    let regex =
+        \'^'.'\s*'.
+        \'\(\d\+\)'.
+        \'\([u ]\)'.
+        \'\([%# ]\)'.
+        \'\([ah ]\)'.
+        \'\([-= ]\)'.
+        \'\([\+x ]\)'
+
+    let result = {}
+
+    for line in buf_list
+        let m = matchlist(line, regex)
+        if empty(m) | continue | endif
+
+        " bufnr:
+        "   buffer number.
+        "   this must NOT be -1.
+        " unlisted:
+        "   'u' or empty string.
+        "   'u' means buffer is NOT listed.
+        "   empty string means buffer is listed.
+        " percent_numsign:
+        "   '%' or '#' or empty string.
+        "   '%' means current buffer.
+        "   '#' means sub buffer.
+        " a_h:
+        "   'a' or 'h' or empty string.
+        "   'a' means buffer is loaded and active(displayed).
+        "   'h' means buffer is loaded but not active(hidden).
+        " minus_equal:
+        "   '-' or '=' or empty string.
+        "   '-' means buffer is not modifiable.
+        "   '=' means buffer is readonly.
+        " plus_x:
+        "   '+' or 'x' or empty string.
+        "   '+' means buffer is modified.
+        "   'x' means error occured while loading buffer.
+        let [bufnr, unlisted, percent_numsign, a_h, minus_equal, plus_x; rest] = m[1:]
+
+        let result[bufnr] = {
+            \'nr': bufnr + 0,
+            \'is_unlisted': unlisted ==# 'u',
+            \'is_current': percent_numsign ==# '%',
+            \'is_sub': percent_numsign ==# '#',
+            \'is_active': a_h ==# 'a',
+            \'is_hidden': a_h ==# 'h',
+            \'is_modifiable': minus_equal !=# '-',
+            \'is_readonly': minus_equal ==# '=',
+            \'is_modified': plus_x ==# '+',
+            \'is_err': plus_x ==# 'x',
+            \'lnum': -1,
+        \}
+    endfor
+
+    return result
 endfunction "}}}
 
 function! s:restart(bang) "{{{
