@@ -237,7 +237,10 @@ function! s:restart(bang) "{{{
 
     let system_args = [g:restart_vim_progname]
     for Fn in g:restart_save_fn
-        let system_args += ['-c', call(Fn, [])]
+        let r = call(Fn, [])
+        for ex in type(r) == type([]) ? r : [r]
+            let system_args += ['-c', ex]
+        endfor
         unlet Fn
     endfor
     call call('s:system', system_args)
@@ -246,13 +249,11 @@ function! s:restart(bang) "{{{
 endfunction "}}}
 
 function! s:save_window_values() "{{{
-    return join([
-    \       printf('set lines=%d', &lines),
-    \       printf('set columns=%d', &columns),
-    \       printf('winpos %s %s', getwinposx(), getwinposy()),
-    \   ],
-    \   ' | '
-    \)
+    return [
+    \   printf('set lines=%d', &lines),
+    \   printf('set columns=%d', &columns),
+    \   printf('winpos %s %s', getwinposx(), getwinposy()),
+    \]
 endfunction "}}}
 
 
