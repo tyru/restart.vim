@@ -90,13 +90,12 @@ scriptencoding utf-8
 "==================================================
 " }}}
 
-augroup restart
-    autocmd!
-    autocmd GUIEnter * source `=expand('<sfile>')`
-augroup END
-
-" NOTE: THIS PLUGIN CAN'T WORK UNDER THE TERMINAL.
 if !has('gui_running')
+    " NOTE: THIS PLUGIN CAN'T WORK UNDER THE TERMINAL.
+    augroup restart
+        autocmd!
+        autocmd GUIEnter * source `=expand('<sfile>')`
+    augroup END
     finish
 endif
 
