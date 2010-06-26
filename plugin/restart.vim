@@ -110,6 +110,9 @@ let s:save_cpo = &cpo
 set cpo&vim
 " }}}
 
+" Scope Variables {{{
+let s:is_win = has('win16') || has('win32') || has('win64')
+" }}}
 " Global Variables {{{
 if !exists('g:restart_command')
     let g:restart_command = 'Restart'
@@ -139,9 +142,32 @@ endfunction "}}}
 function! s:warnf(fmt, ...) "{{{
     call s:warn(call('printf', [a:fmt] + a:000))
 endfunction "}}}
-function! s:system(command, ...) "{{{
-    let args = [a:command] + map(copy(a:000), 'shellescape(v:val)')
-    return system(join(args, ' '))
+function! s:shellescape(...) "{{{
+    if s:is_win
+        let save_shellslash = &shellslash
+        let &l:shellslash = 0
+        try
+            return call('shellescape', a:000)
+        finally
+            let &l:shellslash = save_shellslash
+        endtry
+    else
+        return call('shellescape', a:000)
+    endif
+endfunction "}}}
+function! s:spawn(command, ...) "{{{
+    let args = map(copy(a:000), 's:shellescape(v:val)')
+    if s:is_win
+        let command   = s:shellescape(a:command)
+        let arguments = join(args, ' ')
+        " NOTE: If a:command is .bat file,
+        " cmd.exe appears and won't close.
+        execute printf('silent !start %s %s', command, arguments)
+    else
+        let command   = s:shellescape(a:command)
+        let arguments = join(args, ' ')
+        execute printf('silent !%s %s', command, arguments)
+    endif
 endfunction "}}}
 function! s:is_modified() "{{{
     try
@@ -235,15 +261,15 @@ function! s:restart(bang) "{{{
         return
     endif
 
-    let system_args = [g:restart_vim_progname]
+    let spawn_args = [g:restart_vim_progname]
     for Fn in g:restart_save_fn
         let r = call(Fn, [])
         for ex in type(r) == type([]) ? r : [r]
-            let system_args += ['-c', ex]
+            let spawn_args += ['-c', ex]
         endfor
         unlet Fn
     endfor
-    call call('s:system', system_args)
+    call call('s:spawn', spawn_args)
 
     execute 'qall' . (a:bang ? '!' : '')
 endfunction "}}}
