@@ -82,6 +82,10 @@ scriptencoding utf-8
 "
 "       g:restart_vim_progname (default: "gvim")
 "          gVim program name to restart.
+"
+"          FIXME:
+"          Under MS Windows, you must not assign .bat file path
+"          to this variable. Because cmd.exe appears and won't close.
 "   }}}
 " }}}
 " TODO: {{{
