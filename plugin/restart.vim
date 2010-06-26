@@ -16,7 +16,7 @@ scriptencoding utf-8
 " Document {{{
 "==================================================
 " Name: restart.vim
-" Version: 0.0.2
+" Version: 0.0.3
 " Author:  tyru <tyru.exe@gmail.com>
 " Last Change: 2010-06-26.
 "
@@ -31,6 +31,10 @@ scriptencoding utf-8
 "   0.0.2:
 "   - Don't show 'modified buffer(s) ...' when banged.
 "   - Add g:restart_save_window_values, g:restart_save_fn.
+"   0.0.3:
+"   - Add g:restart_vim_progname.
+"   - Support MS Windows.
+"   - Fix minor bugs.
 " }}}
 " Usage: {{{
 "   Commands: {{{
