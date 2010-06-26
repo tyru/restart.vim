@@ -18,7 +18,7 @@ scriptencoding utf-8
 " Name: restart.vim
 " Version: 0.0.2
 " Author:  tyru <tyru.exe@gmail.com>
-" Last Change: 2010-06-25.
+" Last Change: 2010-06-26.
 "
 " Description:
 "   Restart your gVim.
@@ -64,7 +64,7 @@ scriptencoding utf-8
 "           When g:restart_save_window_values is true,
 "           this variable is ['s:save_window_values'].
 "
-"               function! s:save_window_values() "{{{
+"               function! s:save_window_values()
 "                   return join([
 "                   \       printf('set lines=%d', &lines),
 "                   \       printf('set columns=%d', &columns),
@@ -72,13 +72,16 @@ scriptencoding utf-8
 "                   \   ],
 "                   \   ' | '
 "                   \)
-"               endfunction "}}}
+"               endfunction
 "
 "          As you can see, this function saves current gVim's:
 "          - &line
 "          - &columns
 "          - getwinposx()
 "          - getwinposy()
+"
+"       g:restart_vim_progname (default: "gvim")
+"          gVim program name to restart.
 "   }}}
 " }}}
 " TODO: {{{
