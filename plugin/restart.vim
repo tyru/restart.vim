@@ -286,7 +286,12 @@ function! s:restart(bang) "{{{
     endfor
 
     if g:restart_sessionoptions != ''
-      let session_file = tempname()
+      let session_file = expand('restart_session.vim', ':p')
+      let i = 0
+      while filereadable(session_file)
+      let session_file = expand('restart_session_' . i . '.vim', ':p')
+      let i += 1
+      endwhile
       let ssop = &sessionoptions
       let &sessionoptions = g:restart_sessionoptions
       mksession `=session_file`
