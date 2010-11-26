@@ -300,6 +300,7 @@ function! s:restart(bang) "{{{
       let &sessionoptions = ssop
     endif
 
+    wviminfo
     call call('s:spawn', spawn_args)
 
     execute 'qall' . (a:bang ? '!' : '')
