@@ -176,13 +176,13 @@ endfunction "}}}
 function! s:spawn(command, ...) "{{{
     let args = map(copy(a:000), 's:shellescape(v:val)')
     let command   = s:shellescape(a:command)
-    let arguments = join(args, ' ')
+    let cmdargs = join(args, ' ')
     if s:is_win
         " NOTE: If a:command is .bat file,
         " cmd.exe appears and won't close.
-        execute printf('silent !start %s %s', command, arguments)
+        execute printf('silent !start %s %s', command, cmdargs)
     else
-        execute printf('silent !%s %s', command, arguments)
+        execute printf('silent !%s %s', command, cmdargs)
     endif
 endfunction "}}}
 function! s:is_modified() "{{{
