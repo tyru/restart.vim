@@ -90,6 +90,10 @@ scriptencoding utf-8
 "          FIXME:
 "          Under MS Windows, you must not assign .bat file path
 "          to this variable. Because cmd.exe appears and won't close.
+"
+"       g:restart_sessionoptions (default: "")
+"          If this variable is not empty, make a session from this value.
+"          And restore the session after vim restarts.
 "   }}}
 " }}}
 " TODO: {{{
@@ -133,6 +137,9 @@ if !exists('g:restart_save_fn')
 endif
 if !exists('g:restart_vim_progname')
     let g:restart_vim_progname = 'gvim'
+endif
+if !exists('g:restart_sessionoptions')
+    let g:restart_sessionoptions = ''
 endif
 
 if g:restart_save_window_values
@@ -277,6 +284,23 @@ function! s:restart(bang) "{{{
         endfor
         unlet Fn
     endfor
+
+    if g:restart_sessionoptions != ''
+      let session_file = expand('restart_session.vim', ':p')
+      let i = 0
+      while filereadable(session_file)
+      let session_file = expand('restart_session_' . i . '.vim', ':p')
+      let i += 1
+      endwhile
+      let ssop = &sessionoptions
+      let &sessionoptions = g:restart_sessionoptions
+      mksession `=session_file`
+      let spawn_args += ['-S', session_file,
+      \                  '-c', 'call delete(' . string(session_file) . ')']
+      let &sessionoptions = ssop
+    endif
+
+    wviminfo
     call call('s:spawn', spawn_args)
 
     execute 'qall' . (a:bang ? '!' : '')
