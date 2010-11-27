@@ -24,7 +24,8 @@ scriptencoding utf-8
 "   Restart your gVim.
 "
 " Change Log: {{{
-"   0.0.0: Initial upload
+"   0.0.0:
+"   - Initial upload
 "   0.0.1:
 "   - Do not restart if modified buffer(s) exist.
 "   - etc.
