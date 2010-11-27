@@ -18,7 +18,7 @@ scriptencoding utf-8
 " Name: restart.vim
 " Version: 0.0.3
 " Author:  tyru <tyru.exe@gmail.com>
-" Last Change: 2010-06-26.
+" Last Change: 2010-11-27.
 "
 " Description:
 "   Restart your gVim.
@@ -286,18 +286,18 @@ function! s:restart(bang) "{{{
     endfor
 
     if g:restart_sessionoptions != ''
-      let session_file = expand('restart_session.vim', ':p')
-      let i = 0
-      while filereadable(session_file)
-      let session_file = expand('restart_session_' . i . '.vim', ':p')
-      let i += 1
-      endwhile
-      let ssop = &sessionoptions
-      let &sessionoptions = g:restart_sessionoptions
-      mksession `=session_file`
-      let spawn_args += ['-S', session_file,
-      \                  '-c', 'call delete(' . string(session_file) . ')']
-      let &sessionoptions = ssop
+        let session_file = expand('restart_session.vim', ':p')
+        let i = 0
+        while filereadable(session_file)
+            let session_file = expand('restart_session_' . i . '.vim', ':p')
+            let i += 1
+        endwhile
+        let ssop = &sessionoptions
+        let &sessionoptions = g:restart_sessionoptions
+        mksession `=session_file`
+        let spawn_args += ['-S', session_file,
+        \                  '-c', 'call delete(' . string(session_file) . ')']
+        let &sessionoptions = ssop
     endif
 
     wviminfo
