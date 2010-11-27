@@ -16,7 +16,7 @@ scriptencoding utf-8
 " Document {{{
 "==================================================
 " Name: restart.vim
-" Version: 0.0.3
+" Version: 0.0.4
 " Author:  tyru <tyru.exe@gmail.com>
 " Last Change: 2010-11-27.
 "
@@ -36,6 +36,8 @@ scriptencoding utf-8
 "   - Add g:restart_vim_progname.
 "   - Support MS Windows.
 "   - Fix minor bugs.
+"   0.0.4:
+"   - Add g:restart_sessionoptions. thanks thinca.
 " }}}
 " Usage: {{{
 "   Commands: {{{
