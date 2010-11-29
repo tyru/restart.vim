@@ -18,7 +18,7 @@ scriptencoding utf-8
 " Name: restart.vim
 " Version: 0.0.4
 " Author:  tyru <tyru.exe@gmail.com>
-" Last Change: 27-Nov-2010.
+" Last Change: 2010-11-29.
 "
 " Description:
 "   Restart your gVim.
@@ -101,6 +101,9 @@ scriptencoding utf-8
 " }}}
 " TODO: {{{
 "   - Support vim (Is this possible...?)
+"   - Support MacVim
+"       - MacVim support was implemented by ujihisa.
+"       But g:restart_sessionoptions is not recognized.
 " }}}
 "==================================================
 " }}}
@@ -181,6 +184,8 @@ function! s:spawn(command, ...) "{{{
         " NOTE: If a:command is .bat file,
         " cmd.exe appears and won't close.
         execute printf('silent !start %s %s', command, cmdargs)
+    elseif has('gui_macvim')
+        macaction newWindow:
     else
         execute printf('silent !%s %s', command, cmdargs)
     endif
