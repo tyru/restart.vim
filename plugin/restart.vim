@@ -181,6 +181,8 @@ function! s:spawn(command, ...) "{{{
         " NOTE: If a:command is .bat file,
         " cmd.exe appears and won't close.
         execute printf('silent !start %s %s', command, cmdargs)
+    elseif has('gui_macvim')
+        macaction newWindow:
     else
         execute printf('silent !%s %s', command, cmdargs)
     endif
