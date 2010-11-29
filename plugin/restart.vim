@@ -100,7 +100,7 @@ scriptencoding utf-8
 "   }}}
 " }}}
 " TODO: {{{
-"   - Support vim (Is this possible...?)
+"   - Support terminal vim (Is this possible...?)
 "   - Support MacVim
 "       - MacVim support was implemented by ujihisa.
 "       But g:restart_sessionoptions is not recognized.
