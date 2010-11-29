@@ -18,7 +18,7 @@ scriptencoding utf-8
 " Name: restart.vim
 " Version: 0.0.4
 " Author:  tyru <tyru.exe@gmail.com>
-" Last Change: 2010-11-27.
+" Last Change: 27-Nov-2010.
 "
 " Description:
 "   Restart your gVim.
@@ -175,16 +175,14 @@ function! s:shellescape(...) "{{{
 endfunction "}}}
 function! s:spawn(command, ...) "{{{
     let args = map(copy(a:000), 's:shellescape(v:val)')
+    let command   = s:shellescape(a:command)
+    let cmdargs = join(args, ' ')
     if s:is_win
-        let command   = s:shellescape(a:command)
-        let arguments = join(args, ' ')
         " NOTE: If a:command is .bat file,
         " cmd.exe appears and won't close.
-        execute printf('silent !start %s %s', command, arguments)
+        execute printf('silent !start %s %s', command, cmdargs)
     else
-        let command   = s:shellescape(a:command)
-        let arguments = join(args, ' ')
-        execute printf('silent !%s %s', command, arguments)
+        execute printf('silent !%s %s', command, cmdargs)
     endif
 endfunction "}}}
 function! s:is_modified() "{{{
