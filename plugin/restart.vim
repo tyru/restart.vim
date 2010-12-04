@@ -176,18 +176,16 @@ function! s:shellescape(...) "{{{
         return call('shellescape', a:000)
     endif
 endfunction "}}}
-function! s:spawn(command, ...) "{{{
-    let args = map(copy(a:000), 's:shellescape(v:val)')
-    let command   = s:shellescape(a:command)
-    let cmdargs = join(args, ' ')
+function! s:spawn(args) "{{{
+    let [command; cmdargs] = map(copy(a:args), 's:shellescape(v:val)')
     if s:is_win
         " NOTE: If a:command is .bat file,
         " cmd.exe appears and won't close.
-        execute printf('silent !start %s %s', command, cmdargs)
+        execute printf('silent !start %s %s', command, join(cmdargs))
     elseif has('gui_macvim')
         macaction newWindow:
     else
-        execute printf('silent !%s %s', command, cmdargs)
+        execute printf('silent !%s %s', command, join(cmdargs))
     endif
 endfunction "}}}
 function! s:is_modified() "{{{
@@ -309,7 +307,7 @@ function! s:restart(bang) "{{{
     endif
 
     wviminfo
-    call call('s:spawn', spawn_args)
+    call s:spawn(spawn_args)
 
     execute 'qall' . (a:bang ? '!' : '')
 endfunction "}}}
