@@ -16,7 +16,7 @@ scriptencoding utf-8
 " Document {{{
 "==================================================
 " Name: restart.vim
-" Version: 0.0.4
+" Version: 0.0.5
 " Author:  tyru <tyru.exe@gmail.com>
 " Last Change: 2010-12-04.
 "
@@ -38,6 +38,10 @@ scriptencoding utf-8
 "   - Fix minor bugs.
 "   0.0.4:
 "   - Add g:restart_sessionoptions. thanks thinca.
+"   0.0.5:
+"   - GUI MacVim support (not complete). thanks ujihisa.
+"   - if the basename of v:progname contains "gvim",
+"     g:restart_vim_progname is "gvim", otherwise "vim".
 " }}}
 " Usage: {{{
 "   Commands: {{{
