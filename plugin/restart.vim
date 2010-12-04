@@ -18,7 +18,7 @@ scriptencoding utf-8
 " Name: restart.vim
 " Version: 0.0.4
 " Author:  tyru <tyru.exe@gmail.com>
-" Last Change: 2010-11-29.
+" Last Change: 2010-12-04.
 "
 " Description:
 "   Restart your gVim.
@@ -100,7 +100,7 @@ scriptencoding utf-8
 "   }}}
 " }}}
 " TODO: {{{
-"   - Support terminal vim (Is this possible...?)
+"   - Support terminal vim
 "   - Support MacVim
 "       - MacVim support was implemented by ujihisa.
 "       But g:restart_sessionoptions is not recognized.
