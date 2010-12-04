@@ -40,8 +40,6 @@ scriptencoding utf-8
 "   - Add g:restart_sessionoptions. thanks thinca.
 "   0.0.5:
 "   - GUI MacVim support (not complete). thanks ujihisa.
-"   - if the basename of v:progname contains "gvim",
-"     g:restart_vim_progname is "gvim", otherwise "vim".
 " }}}
 " Usage: {{{
 "   Commands: {{{
