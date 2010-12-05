@@ -18,10 +18,10 @@ scriptencoding utf-8
 " Name: restart.vim
 " Version: 0.0.5
 " Author:  tyru <tyru.exe@gmail.com>
-" Last Change: 2010-12-04.
+" Last Change: 2010-12-05.
 "
 " Description:
-"   Restart your gVim.
+"   Restart your Vim.
 "
 " Change Log: {{{
 "   0.0.0:
@@ -44,19 +44,19 @@ scriptencoding utf-8
 " Usage: {{{
 "   Commands: {{{
 "       :Restart
-"           If modified buffer(s) exist, gVim won't restart.
+"           If modified buffer(s) exist, Vim won't restart.
 "           If you want to quit anyway, add bang(:Restart!).
 "   }}}
 "   Global Variables: {{{
 "       g:restart_command (default: 'Restart')
-"           command name to restart gVim.
+"           command name to restart Vim.
 "
 "       g:restart_save_window_values (default: 1)
-"           Save window values when restarting gVim.
+"           Save window values when restarting Vim.
 "           Saving values are as follows:
 "           - &line
 "           - &columns
-"           - gVim window position (getwinposx(), getwinposy())
+"           - Vim window position (getwinposx(), getwinposy())
 "           Before v0.0.1, restart.vim saves above values.
 "           So this variable is for compatibility.
 "
@@ -69,7 +69,7 @@ scriptencoding utf-8
 "               endfunction
 "               let g:restart_save_fn = [function('Hello')]
 "
-"           This meaningless example shows "hello" in new starting up gVim.
+"           This meaningless example shows "hello" in new starting up Vim.
 "           When g:restart_save_window_values is true,
 "           this variable is ['s:save_window_values'].
 "
@@ -83,14 +83,14 @@ scriptencoding utf-8
 "                   \)
 "               endfunction
 "
-"          As you can see, this function saves current gVim's:
+"          As you can see, this function saves current Vim's:
 "          - &line
 "          - &columns
 "          - getwinposx()
 "          - getwinposy()
 "
 "       g:restart_vim_progname (default: "gvim")
-"          gVim program name to restart.
+"          Vim program name to restart.
 "
 "          FIXME:
 "          Under MS Windows, you must not assign .bat file path
