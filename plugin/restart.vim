@@ -309,6 +309,10 @@ function! s:restart(bang) "{{{
     endif
 
     wviminfo
+
+    " Delete all buffers to delete the swap files.
+    silent execute '1,' . bufnr('$') . 'bwipeout'
+
     call s:spawn(spawn_args)
 
     execute 'qall' . (a:bang ? '!' : '')
