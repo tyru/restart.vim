@@ -18,7 +18,7 @@ scriptencoding utf-8
 " Name: restart.vim
 " Version: 0.0.5
 " Author:  tyru <tyru.exe@gmail.com>
-" Last Change: 2010-12-05.
+" Last Change: 2010-12-27.
 "
 " Description:
 "   Restart your Vim.
@@ -114,7 +114,7 @@ if !has('gui_running')
     " NOTE: THIS PLUGIN CAN'T WORK UNDER THE TERMINAL.
     augroup restart
         autocmd!
-        autocmd GUIEnter * source `=expand('<sfile>')`
+        autocmd GUIEnter * source <sfile>
     augroup END
     finish
 endif
