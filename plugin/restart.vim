@@ -16,7 +16,7 @@ scriptencoding utf-8
 " Document {{{
 "==================================================
 " Name: restart.vim
-" Version: 0.0.5
+" Version: 0.0.6
 " Author:  tyru <tyru.exe@gmail.com>
 " Last Change: 2010-12-27.
 "
@@ -40,6 +40,10 @@ scriptencoding utf-8
 "   - Add g:restart_sessionoptions. thanks thinca.
 "   0.0.5:
 "   - GUI MacVim support (not complete). thanks ujihisa.
+"   0.0.6:
+"   - Fix error when switching to GUI using :gui
+"   - Fix warning: Delete all buffers before starting new Vim
+"     to not show a warning about swap file. thanks thinca.
 " }}}
 " Usage: {{{
 "   Commands: {{{
