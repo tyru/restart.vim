@@ -298,10 +298,10 @@ function! s:restart(bang) "{{{
     if g:restart_sessionoptions != ''
         " The reason why not use tempname() is that
         " the created file will be removed by Vim at exit.
-        let session_file = expand('restart_session.vim', ':p')
+        let session_file = fnamemodify('restart_session.vim', ':p')
         let i = 0
         while filereadable(session_file)
-            let session_file = expand('restart_session_' . i . '.vim', ':p')
+            let session_file = fnamemodify('restart_session_' . i . '.vim', ':p')
             let i += 1
         endwhile
         let ssop = &sessionoptions
