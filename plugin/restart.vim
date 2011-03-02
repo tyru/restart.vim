@@ -18,7 +18,7 @@ scriptencoding utf-8
 " Name: restart.vim
 " Version: 0.0.6
 " Author:  tyru <tyru.exe@gmail.com>
-" Last Change: 2010-12-27.
+" Last Change: 2011-03-02.
 "
 " Description:
 "   Restart your Vim.
@@ -103,6 +103,9 @@ scriptencoding utf-8
 "       g:restart_sessionoptions (default: "")
 "          If this variable is not empty, make a session from this value.
 "          And restore the session after vim restarts.
+"
+"       g:restart_cd (default: getcwd())
+"          The current directory of new vim.
 "   }}}
 " }}}
 " TODO: {{{
@@ -152,6 +155,9 @@ if !exists('g:restart_vim_progname')
 endif
 if !exists('g:restart_sessionoptions')
     let g:restart_sessionoptions = ''
+endif
+if !exists('g:restart_cd')
+    let g:restart_cd = getcwd()
 endif
 
 if g:restart_save_window_values
@@ -317,6 +323,7 @@ function! s:restart(bang) "{{{
     " Delete all buffers to delete the swap files.
     silent execute '1,' . bufnr('$') . 'bwipeout'
 
+    cd `=g:restart_cd`
     call s:spawn(spawn_args)
 
     execute 'qall' . (a:bang ? '!' : '')
