@@ -2,7 +2,7 @@
 
 Author:
   tyru <tyru.exe@gmail.com>
-Version: 0.0.6
+Version: 0.0.7
 License:
 " NEW BSD LICENSE {{{
 "   Copyright (c) 2011, tyru
@@ -141,6 +141,10 @@ CHANGELOG						*restart-changelog* {{{
 - Fix error when switching to GUI using :gui
 - Fix warning: Delete all buffers before starting new Vim
   to not show a warning about swap file. thanks thinca.
+0.0.7:
+- separate doc to doc/restart.txt
+- add g:restart_cd option (thanks thinca).
+- fix minor bug.
 
 }}}
 ==============================================================================
