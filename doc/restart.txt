@@ -25,6 +25,7 @@ Interface			|restart-interface|
   Keymappings		|restart-keymappings|
   Variables			|restart-variables|
   Commands			|restart-commands|
+Tips				|restart-tips|
 TODO				|restart-todo|
 Changelog			|restart-changelog|
 
@@ -110,6 +111,18 @@ COMMANDS					*restart-commands* {{{
 	If you want to quit anyway, add bang(:Restart!).
 
 }}}
+}}}
+==============================================================================
+TIPS						*restart-tips* {{{
+
+Q. I want to restart with session, or no session, without changing |g:restart_sessionoptions| in .vimrc.
+A. define :RestartWithSession like this. >
+	command!
+	\   RestartWithSession
+	\   -bar
+	\   let g:restart_sessionoptions = 'blank,curdir,folds,help,localoptions,tabpages'
+	\   | Restart
+
 }}}
 ==============================================================================
 TODO						*restart-todo* {{{
