@@ -171,7 +171,7 @@ function! s:parse_buffers_info() "{{{
     return result
 endfunction "}}}
 
-function! s:restart(bang) "{{{
+function! s:restart(bang) abort "{{{
     if s:is_modified() && !a:bang
         call s:warn("modified buffer(s) exist!")
         return
