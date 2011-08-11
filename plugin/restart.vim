@@ -206,7 +206,7 @@ function! s:restart(bang) abort "{{{
     wviminfo
 
     " Delete all buffers to delete the swap files.
-    silent! execute '1,' . bufnr('$') . 'bwipeout'
+    silent! 1,$bwipeout
 
     cd `=g:restart_cd`
     call s:spawn(spawn_args)
