@@ -2,7 +2,7 @@
 
 Author:
   tyru <tyru.exe@gmail.com>
-Version: 0.0.7
+Version: 0.0.8
 License:
 " NEW BSD LICENSE {{{
 "   Copyright (c) 2011, tyru
@@ -158,6 +158,9 @@ CHANGELOG						*restart-changelog* {{{
 - separate doc to doc/restart.txt
 - add g:restart_cd option (thanks thinca).
 - fix minor bug.
+0.0.8:
+- Add |restart-tips|.
+- Improve error handling while restarting
 
 }}}
 ==============================================================================
