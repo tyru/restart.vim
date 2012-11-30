@@ -2,15 +2,6 @@
 scriptencoding utf-8
 
 
-if !has('gui_running')
-    " NOTE: THIS PLUGIN CAN'T WORK UNDER THE TERMINAL.
-    augroup restart
-        autocmd!
-        autocmd GUIEnter * source <sfile>
-    augroup END
-    finish
-endif
-
 " Load Once {{{
 if exists('g:loaded_restart') && g:loaded_restart
     finish

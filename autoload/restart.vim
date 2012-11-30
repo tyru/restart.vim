@@ -3,11 +3,20 @@ scriptencoding utf-8
 
 
 if !has('gui_running')
-    " NOTE: THIS PLUGIN CAN'T WORK UNDER THE TERMINAL.
-    augroup restart
-        autocmd!
-        autocmd GUIEnter * source <sfile>
-    augroup END
+    function! restart#restart(...)
+        echohl ErrorMsg
+        echomsg 'restart.vim does not work under the terminal.'
+        echohl None
+
+        augroup restart
+            autocmd!
+
+            " <sfile> is replaced by "function restart#restart"
+            " on Vim 7.3.729 ...
+            " autocmd GUIEnter * source <sfile>
+            autocmd GUIEnter * runtime! autoload/restart.vim
+        augroup END
+    endfunction
     finish
 endif
 
