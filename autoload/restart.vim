@@ -150,13 +150,13 @@ function! s:parse_buffers_info() "{{{
     return result
 endfunction "}}}
 
-function! restart#restart(bang) abort "{{{
+function! restart#restart(bang, args) abort "{{{
     if s:is_modified() && !a:bang
         call s:warn("modified buffer(s) exist!")
         return
     endif
 
-    let spawn_args = [g:restart_vim_progname]
+    let spawn_args = [g:restart_vim_progname] + a:args
     for Fn in g:restart_save_fn
         let r = call(Fn, [])
         for ex in type(r) == type([]) ? r : [r]

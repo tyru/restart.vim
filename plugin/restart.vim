@@ -41,7 +41,7 @@ if !exists('g:restart_command')
 endif
 
 if g:restart_command != ''
-    execute 'command! -bar -bang' g:restart_command 'call restart#restart(<bang>0)'
+    execute 'command! -bar -bang -nargs=*' g:restart_command 'call restart#restart(<bang>0, [<f-args>])'
 endif
 " }}}
 
