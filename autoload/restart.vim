@@ -27,6 +27,7 @@ set cpo&vim
 
 " Scope Variables {{{
 let s:is_win = has('win16') || has('win32') || has('win64')
+let s:is_macvim = has('gui_macvim')
 " }}}
 
 
@@ -58,7 +59,7 @@ function! s:spawn(args) "{{{
         " NOTE: If a:command is .bat file,
         " cmd.exe appears and won't close.
         execute printf('silent !start %s %s', command, join(cmdargs))
-    elseif has('gui_macvim')
+    elseif s:is_macvim
         macaction newWindow:
     else
         execute printf('silent !%s %s', command, join(cmdargs))
