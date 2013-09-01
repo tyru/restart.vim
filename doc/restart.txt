@@ -115,11 +115,12 @@ COMMANDS					*restart-commands* {{{
 ==============================================================================
 TIPS						*restart-tips* {{{
 
+				*:RestartWithSession*
 Q. I want to restart with session, or no session, without changing |g:restart_sessionoptions| in .vimrc.
-A. define :RestartWithSession like this. >
+A. define |:RestartWithSession| like this. >
 	command!
-	\   RestartWithSession
 	\   -bar
+	\   RestartWithSession
 	\   let g:restart_sessionoptions = 'blank,curdir,folds,help,localoptions,tabpages'
 	\   | Restart
 
