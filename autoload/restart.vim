@@ -40,29 +40,15 @@ endfunction "}}}
 function! s:warnf(fmt, ...) "{{{
     call s:warn(call('printf', [a:fmt] + a:000))
 endfunction "}}}
-function! s:shellescape(...) "{{{
-    if s:is_win
-        let save_shellslash = &shellslash
-        let &l:shellslash = 0
-        try
-            return call('shellescape', a:000)
-        finally
-            let &l:shellslash = save_shellslash
-        endtry
-    else
-        return call('shellescape', a:000)
-    endif
-endfunction "}}}
-function! s:spawn(args) "{{{
-    let [command; cmdargs] = map(copy(a:args), 's:shellescape(v:val)')
+function! s:spawn(command) "{{{
     if s:is_win
         " NOTE: If a:command is .bat file,
         " cmd.exe appears and won't close.
-        execute printf('silent !start %s %s', command, join(cmdargs))
+        execute printf('silent !start %s', a:command)
     elseif s:is_macvim
         macaction newWindow:
     else
-        execute printf('silent !%s %s', command, join(cmdargs))
+        execute printf('silent !%s', a:command)
     endif
 endfunction "}}}
 function! s:is_modified() "{{{
@@ -157,11 +143,11 @@ function! restart#restart(bang, args) abort "{{{
         return
     endif
 
-    let spawn_args = [g:restart_vim_progname] + a:args
+    let spawn_args = g:restart_vim_progname . ' ' . a:args . ' '
     for Fn in g:restart_save_fn
         let r = call(Fn, [])
         for ex in type(r) == type([]) ? r : [r]
-            let spawn_args += ['-c', ex]
+            let spawn_args .= '-c' . ' "' . ex . '" '
         endfor
         unlet Fn
     endfor
@@ -178,8 +164,8 @@ function! restart#restart(bang, args) abort "{{{
         let ssop = &sessionoptions
         let &sessionoptions = g:restart_sessionoptions
         mksession `=session_file`
-        let spawn_args += ['-S', session_file,
-        \                  '-c', 'call delete(' . string(session_file) . ')']
+        let spawn_args .= join(['-S', '"' . session_file . '"',
+        \                  '-c "', 'call delete(' . string(session_file) . ')"']) . ' '
         let &sessionoptions = ssop
     endif
 
