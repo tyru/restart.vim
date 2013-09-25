@@ -163,7 +163,7 @@ function! restart#restart(bang, args) abort "{{{
         for ex in type(r) == type([]) ? r : [r]
             let spawn_args += ['-c', ex]
         endfor
-        unlet Fn
+        unlet r Fn
     endfor
 
     if g:restart_sessionoptions != ''
