@@ -56,7 +56,7 @@ g:restart_save_window_values	*g:restart_save_window_values*
 	So this variable is for compatibility.
 
 g:restart_save_fn	*g:restart_save_fn*
-					(default: g:restart_save_fn is true: ['s:save_window_values'], false: [])
+					(default: g:restart_save_window_values is true: ['s:save_window_values'], false: [])
 	This variable saves functions returning ex command.
 	e.g., in your .vimrc:
 >
