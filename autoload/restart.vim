@@ -131,11 +131,6 @@ function! s:parse_buffers_info() "{{{
 endfunction "}}}
 
 function! restart#restart(bang, args) abort "{{{
-    if s:is_modified() && !a:bang
-        call s:warn("modified buffer(s) exist!")
-        return
-    endif
-
     let spawn_args = g:restart_vim_progname . ' ' . a:args . ' '
     for Fn in g:restart_save_fn
         let r = call(Fn, [])
@@ -162,14 +157,29 @@ function! restart#restart(bang, args) abort "{{{
         let &sessionoptions = ssop
     endif
 
-    wviminfo
-
     " Delete all buffers to delete the swap files.
-    silent! 1,$bwipeout
+    set nohidden
+    if a:bang
+        silent! 1,$bwipeout
+    else
+        try
+            for buf in values(s:parse_buffers_info())
+                execute 'confirm ' . buf.nr . 'bwipeout'
+            endfor
+        catch
+            " 'Cancel' was selected.
+            " (E517: No buffers were wiped out)
+            return
+        endtry
+    endif
+
+    wviminfo
 
     cd `=g:restart_cd`
     call s:spawn(spawn_args)
 
+    " NOTE: Need bang because surprisingly
+    " ':silent! 1,$bwipeout' does not wipeout current unnamed buffer!
     execute 'qall' . (a:bang ? '!' : '')
 endfunction "}}}
 
