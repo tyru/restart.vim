@@ -65,7 +65,7 @@ g:restart_save_fn	*g:restart_save_fn*
 		endfunction
 		let g:restart_save_fn = [function('Hello')]
 <
-	This meaningless example shows "hello" in new starting up Vim.
+	This meaningless example shows "hello" in new starting Vim.
 	When g:restart_save_window_values is true,
 	this variable is ['s:save_window_values'].
 >
@@ -95,7 +95,8 @@ g:restart_vim_progname	*g:restart_vim_progname*
 
 g:restart_sessionoptions	*g:restart_sessionoptions*
 					(default: "")
-	If this variable is not empty, make a session from this value.
+	If this variable is not empty string,
+	make a session from this value.
 	And restore the session after vim restarts.
 
 g:restart_cd		*g:restart_cd*
