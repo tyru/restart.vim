@@ -32,14 +32,6 @@ let s:is_macvim = has('gui_macvim')
 
 
 
-function! s:warn(msg) "{{{
-    echohl WarningMsg
-    echomsg a:msg
-    echohl None
-endfunction "}}}
-function! s:warnf(fmt, ...) "{{{
-    call s:warn(call('printf', [a:fmt] + a:000))
-endfunction "}}}
 function! s:spawn(command) "{{{
     if s:is_win
         " NOTE: If a:command is .bat file,
