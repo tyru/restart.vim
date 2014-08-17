@@ -27,7 +27,7 @@ if !exists('g:restart_sessionoptions')
     let g:restart_sessionoptions = ''
 endif
 if !exists('g:restart_cd')
-    let g:restart_cd = getcwd()
+    let g:restart_cd = ''
 endif
 
 if g:restart_save_window_values

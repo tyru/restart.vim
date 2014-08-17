@@ -100,8 +100,10 @@ g:restart_sessionoptions	*g:restart_sessionoptions*
 	And restore the session after vim restarts.
 
 g:restart_cd		*g:restart_cd*
-					(default: getcwd())
-	The current directory of new vim.
+					(default: "")
+	The current directory of new starting vim.
+	If this variable is not empty string,
+	|:cd| to the directory before restarting.
 
 }}}
 ------------------------------------------------------------------------------

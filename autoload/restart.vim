@@ -175,7 +175,9 @@ function! restart#restart(bang, args) abort "{{{
 
     wviminfo
 
-    cd `=g:restart_cd`
+    if g:restart_cd !=# ''
+        cd `=g:restart_cd`
+    endif
     call s:spawn(spawn_args)
 
     " NOTE: Need bang because surprisingly
