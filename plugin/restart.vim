@@ -47,7 +47,7 @@ endif
 
 " Menu {{{
 if !get(g:, 'restart_no_default_menus', 0)
-    if get(g:, 'restart_menu_lang', v:lang) ==# 'ja'
+    if get(g:, 'restart_menu_lang', &langmenu !=# '' ? &langmenu : v:lang) ==# 'ja'
         execute "nnoremenu <silent> 10.601 File.再起動(&R)<Tab>:Restart :" . g:restart_command . '<CR>'
     else
         execute "nnoremenu <silent> 10.601 File.&Restart<Tab>:Restart :" . g:restart_command . '<CR>'
