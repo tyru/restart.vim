@@ -105,6 +105,22 @@ g:restart_cd		*g:restart_cd*
 	If this variable is not empty string,
 	|:cd| to the directory before restarting.
 
+g:restart_no_default_menus		*g:restart_no_default_menus*
+					(default: 0)
+	If this variable is non-zero,
+	Do not add default menus.
+
+g:restart_menu_lang		*g:restart_menu_lang*
+					(default: |v:lang|)
+	Value	Meaning
+	-----	-------
+	"ja"	Japanese
+	"en"	English
+
+	If the value is not any of above values,
+	fallback to English menu.
+
+
 }}}
 ------------------------------------------------------------------------------
 COMMANDS					*restart-commands* {{{
