@@ -141,39 +141,9 @@ function! restart#restart(bang, args) abort "{{{
     endfor
 
     if g:restart_sessionoptions != ''
-        " The reason why not use tempname() is that
-        " the created file will be removed by Vim at exit.
-        let session_file = fnamemodify('restart_session.vim', ':p')
-        let i = 0
-        while filereadable(session_file)
-            let session_file = fnamemodify('restart_session_' . i . '.vim', ':p')
-            let i += 1
-        endwhile
-        let ssop = &sessionoptions
-        let &sessionoptions = g:restart_sessionoptions
-        mksession `=session_file`
-        let spawn_args .= join(['-S', '"' . session_file . '"',
-        \                  '-c "', 'call delete(' . string(session_file) . ')"']) . ' '
-        let &sessionoptions = ssop
+        call s:make_session_file()
     endif
-
-    " Delete all buffers to delete the swap files.
-    set nohidden
-    if a:bang
-        silent! 1,$bwipeout
-    else
-        try
-            for buf in values(s:parse_buffers_info())
-                execute 'confirm ' . buf.nr . 'bwipeout'
-            endfor
-        catch
-            " 'Cancel' was selected.
-            " (E517: No buffers were wiped out)
-            return
-        endtry
-    endif
-
-    wviminfo
+    call s:delete_all_buffers(a:bang)
 
     if g:restart_cd !=# ''
         cd `=g:restart_cd`
@@ -192,6 +162,46 @@ function! s:save_window_values() "{{{
     \   printf('winpos %s %s', getwinposx(), getwinposy()),
     \]
 endfunction "}}}
+
+function! s:make_session_file()
+    " The reason why not use tempname() is that
+    " the created file will be removed by Vim at exit.
+    let session_file = fnamemodify('restart_session.vim', ':p')
+    let i = 0
+    while filereadable(session_file)
+        let session_file = fnamemodify('restart_session_' . i . '.vim', ':p')
+        let i += 1
+    endwhile
+    let ssop = &sessionoptions
+    try
+        let &sessionoptions = g:restart_sessionoptions
+        mksession `=session_file`
+        let spawn_args .= join(['-S', '"' . session_file . '"',
+        \                  '-c "', 'call delete(' . string(session_file) . ')"']) . ' '
+    finally
+        let &sessionoptions = ssop
+    endtry
+endfunction
+
+" Delete all buffers to delete the swap files.
+function! s:delete_all_buffers(bang)
+    set nohidden
+    if a:bang
+        silent! 1,$bwipeout
+    else
+        try
+            for buf in values(s:parse_buffers_info())
+                execute 'confirm ' . buf.nr . 'bwipeout'
+            endfor
+        catch
+            " 'Cancel' was selected.
+            " (E517: No buffers were wiped out)
+            return
+        endtry
+    endif
+
+    wviminfo
+endfunction
 
 
 " Restore 'cpoptions' {{{
