@@ -213,19 +213,24 @@ function! s:delete_all_buffers(bang)
     endif
 endfunction
 
-function! s:check_window_maximized()
-    return getwinposx() <= 0 && getwinposy() <= 0
-endfunction
-
 if s:is_win
+    function! s:check_window_maximized()
+        return getwinposx() <= 0 && getwinposy() <= 0
+    endfunction
+
     function! s:build_args_window_maximized(spawn_args)
         let spawn_args = a:spawn_args
-        if s:check_window_maximized()
+        if s:check_window_maximized() && s:is_win
             let spawn_args .= '-c "simalt ~x" '
         endif
         return spawn_args
     endfunction
 else
+    " TODO
+    function! s:check_window_maximized()
+        return 0
+    endfunction
+
     " TODO
     function! s:build_args_window_maximized(spawn_args)
         return a:spawn_args
