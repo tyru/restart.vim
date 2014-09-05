@@ -33,6 +33,7 @@ let s:is_macvim = has('gui_macvim')
 
 
 function! s:spawn(command) "{{{
+    wviminfo
     if s:is_win
         " NOTE: If a:command is .bat file,
         " cmd.exe appears and won't close.
@@ -151,6 +152,7 @@ function! restart#restart(bang, args) abort "{{{
         call s:make_session_file()
     endif
     call s:delete_all_buffers(a:bang)
+    let spawn_args = s:build_args_window_maximized(spawn_args)
 
     if g:restart_cd !=# ''
         cd `=g:restart_cd`
@@ -163,6 +165,9 @@ function! restart#restart(bang, args) abort "{{{
 endfunction "}}}
 
 function! s:save_window_values() "{{{
+    if s:check_window_maximized()
+        return []
+    endif
     return [
     \   printf('set lines=%d', &lines),
     \   printf('set columns=%d', &columns),
@@ -206,9 +211,26 @@ function! s:delete_all_buffers(bang)
             return
         endtry
     endif
-
-    wviminfo
 endfunction
+
+function! s:check_window_maximized()
+    return getwinposx() <= 0 && getwinposy() <= 0
+endfunction
+
+if s:is_win
+    function! s:build_args_window_maximized(spawn_args)
+        let spawn_args = a:spawn_args
+        if s:check_window_maximized()
+            let spawn_args .= '-c "simalt ~x" '
+        endif
+        return spawn_args
+    endfunction
+else
+    " TODO
+    function! s:build_args_window_maximized(spawn_args)
+        return a:spawn_args
+    endfunction
+endif
 
 
 " Restore 'cpoptions' {{{
