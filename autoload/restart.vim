@@ -134,7 +134,14 @@ function! restart#restart(bang, args) abort "{{{
     let spawn_args = g:restart_vim_progname . ' ' . a:args . ' '
     for Fn in g:restart_save_fn
         let r = call(Fn, [])
-        for ex in type(r) == type([]) ? r : [r]
+        if type(r) !=# type([])
+            echohl WarningMsg
+            echomsg 'restart.vim: invalid value'
+            \     . ' in g:restart_save_fn: ' + string(r)
+            echohl None
+            continue
+        endif
+        for ex in r
             let spawn_args .= '-c' . ' "' . ex . '" '
         endfor
         unlet r Fn
