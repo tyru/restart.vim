@@ -215,7 +215,7 @@ endfunction
 
 if s:is_win
     function! s:check_window_maximized()
-        return getwinposx() <= 0 && getwinposy() <= 0
+        return libcallnr('User32.dll', 'IsZoomed', v:windowid)
     endfunction
 
     function! s:build_args_window_maximized(spawn_args)
