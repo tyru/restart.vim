@@ -2,7 +2,7 @@
 
 Author:
   tyru <tyru.exe@gmail.com>
-Version: 0.0.8
+Version: 0.1.0
 License:
 NEW BSD LICENSE {{{
   Copyright (c) 2010, tyru
@@ -22,8 +22,6 @@ CONTENTS						*restart-contents*
 
 Introduction		|restart-introduction|
 Interface			|restart-interface|
-  Keymappings		|restart-keymappings|
-  Variables			|restart-variables|
   Commands			|restart-commands|
 Tips				|restart-tips|
 TODO				|restart-todo|
@@ -42,18 +40,24 @@ KEYMAPPINGS					*restart-keymappings* {{{
 VARIABLES					*restart-variables* {{{
 
 g:restart_command	*g:restart_command*
-					(default: 'Restart')
-	command name to restart Vim.
+					(default: "Restart")
+	[Deprecated]
+	Command name to restart Vim.
 
 g:restart_save_window_values	*g:restart_save_window_values*
 					(default: 1)
+
+	[Deprecated]
+	You should append "resize,winpos,winsize"
+	to |g:restart_sessionoptions| instead.
+	Before v0.0.1, restart.vim saves below values.
+	So this variable is for compatibility.
+
 	Save window values when restarting Vim.
 	Saving values are as follows:
 	- &line
 	- &columns
 	- Vim window position (getwinposx(), getwinposy())
-	Before v0.0.1, restart.vim saves above values.
-	So this variable is for compatibility.
 
 g:restart_save_fn	*g:restart_save_fn*
 					(default: g:restart_save_window_values is true: ['s:save_window_values'], false: [])
@@ -89,7 +93,7 @@ g:restart_vim_progname	*g:restart_vim_progname*
 					(default: "gvim")
 	Vim program name to restart.
 
-	FIXME:
+	[FIXME]
 	Under MS Windows, you must not assign .bat file path
 	to this variable. Because cmd.exe appears and won't close.
 
@@ -132,9 +136,14 @@ g:restart_menu_lang		*g:restart_menu_lang*
 ------------------------------------------------------------------------------
 COMMANDS					*restart-commands* {{{
 
-:Restart			*:Restart*
-	If modified buffer(s) exist, Vim won't restart.
-	If you want to quit anyway, add bang(:Restart!).
+:Restart [--clean] [--] [vim_options]			*:Restart*
+	If modified buffer(s) exist, restart.vim prompts to you
+	whether save/discard/cancel.
+	If you want to quit without prompt, add bang(:Restart!).
+
+	"--clean" option ignores |g:restart_sessionoptions|.
+	If you want to separate |:Restart| options and [vim_options],
+	You can insert "--" between options.
 
 }}}
 }}}
@@ -147,16 +156,18 @@ A. define |:RestartWithSession| like this. >
 	command!
 	\   -bar
 	\   RestartWithSession
-	\   let g:restart_sessionoptions = 'blank,curdir,folds,help,localoptions,tabpages'
+	\   let g:restart_sessionoptions = 'folds,help,resize,tabpages,winpos,winsize'
 	\   | Restart
 
 }}}
 ==============================================================================
 TODO						*restart-todo* {{{
+
 - Support terminal vim
 - Support MacVim
     - MacVim support was implemented by ujihisa.
     But g:restart_sessionoptions is not recognized.
+
 }}}
 ==============================================================================
 CHANGELOG						*restart-changelog* {{{
@@ -188,6 +199,15 @@ CHANGELOG						*restart-changelog* {{{
 0.0.8:
 - Add |restart-tips|.
 - Improve error handling while restarting
+0.1.0:
+- [Destructive] Change g:restart_cd default value (#8)
+- Prompt user to save/unsave/cancel modified buffers.
+- Add |g:restart_sessionoptions|.
+- Take additional Vim options from args (e.g., ':Restart -u NONE')
+- Add "--clean" option. This ignores |g:restart_sessionoptions|.
+  You can use this with Vim option arguments (e.g., ':Restart --clean -- -u NONE')
+- Add Japanese,English menus for :Restart
+- Support maximized window restoration on MS Windows
 
 }}}
 ==============================================================================
