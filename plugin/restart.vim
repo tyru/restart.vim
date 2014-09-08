@@ -41,7 +41,9 @@ if !exists('g:restart_command')
 endif
 
 if g:restart_command != ''
-    execute 'command! -bang -nargs=*' g:restart_command 'call restart#restart(<bang>0, <q-args>)'
+    execute 'command! -bang -nargs=*'
+    \   '-complete=customlist,restart#__complete__'
+    \   g:restart_command 'call restart#restart(<bang>0, [<f-args>])'
 endif
 " }}}
 

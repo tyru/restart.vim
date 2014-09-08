@@ -132,7 +132,8 @@ function! s:parse_buffers_info() "{{{
 endfunction "}}}
 
 function! restart#restart(bang, args) abort "{{{
-    let spawn_args = g:restart_vim_progname . ' ' . a:args . ' '
+    let [opts, args] = s:parse_options(a:args)
+    let spawn_args = g:restart_vim_progname . ' ' . join(args, ' ') . ' '
     for Fn in g:restart_save_fn
         let r = call(Fn, [])
         if type(r) !=# type([])
@@ -148,7 +149,7 @@ function! restart#restart(bang, args) abort "{{{
         unlet r Fn
     endfor
 
-    if g:restart_sessionoptions != ''
+    if !opts.clean && g:restart_sessionoptions != ''
         let spawn_args = s:add_session_args(spawn_args)
     endif
     call s:delete_all_buffers(a:bang)
@@ -164,6 +165,31 @@ function! restart#restart(bang, args) abort "{{{
     " NOTE: Need bang because surprisingly
     " ':silent! 1,$bwipeout' does not wipeout current unnamed buffer!
     execute 'qall' . (a:bang ? '!' : '')
+endfunction "}}}
+
+let s:OPTIONS = ['--clean']
+function! restart#__complete__(arglead, cmdline, cursorpos)
+    if a:arglead ==# '' || a:arglead[0] ==# '-'
+        return s:OPTIONS
+    endif
+    return []
+endfunction
+
+function! s:parse_options(args) "{{{
+    let args = a:args
+    let opts = {'clean': 0}
+    while !empty(args) && args[0] =~# '^-'
+        if args[0] ==# '--'
+            call remove(args, 0)
+            break
+        elseif args[0] ==# '--clean'
+            let opts.clean = 1
+        else
+            break
+        endif
+        call remove(args, 0)
+    endwhile
+    return [opts, args]
 endfunction "}}}
 
 function! s:save_window_values() "{{{
