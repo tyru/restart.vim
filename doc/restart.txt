@@ -201,13 +201,13 @@ CHANGELOG						*restart-changelog* {{{
 - Improve error handling while restarting
 0.1.0:
 - [Destructive] Change g:restart_cd default value (#8)
-- Prompt user to save/unsave/cancel modified buffers.
-- Add |g:restart_sessionoptions|.
-- Take additional Vim options from args (e.g., ':Restart -u NONE')
-- Add "--clean" option. This ignores |g:restart_sessionoptions|.
-  You can use this with Vim option arguments (e.g., ':Restart --clean -- -u NONE')
-- Add Japanese,English menus for :Restart
-- Support maximized window restoration on MS Windows
+- [Feature] Prompt user to save/unsave/cancel modified buffers.
+- [Feature] Add |g:restart_sessionoptions|.
+- [Feature] Take additional Vim options from args (e.g., ':Restart -u NONE')
+- [Feature] Add "--clean" option. This ignores |g:restart_sessionoptions|.
+            You can use this with Vim option arguments (e.g., ':Restart --clean -- -u NONE')
+- [Feature] Add Japanese,English menus for :Restart
+- [Feature] Support maximized window restoration on MS Windows
 
 }}}
 ==============================================================================
