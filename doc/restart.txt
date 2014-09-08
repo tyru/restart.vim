@@ -2,7 +2,7 @@
 
 Author:
   tyru <tyru.exe@gmail.com>
-Version: 0.1.0
+Version: 0.1.1
 License:
 NEW BSD LICENSE {{{
   Copyright (c) 2010, tyru
@@ -208,6 +208,8 @@ CHANGELOG						*restart-changelog* {{{
             You can use this with Vim option arguments (e.g., ':Restart --clean -- -u NONE')
 - [Feature] Add Japanese,English menus for :Restart
 - [Feature] Support maximized window restoration on MS Windows
+0.1.1:
+- [Bug] "Prompt user to save/unsave/cancel modified buffers" did not work.
 
 }}}
 ==============================================================================

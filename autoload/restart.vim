@@ -152,7 +152,9 @@ function! restart#restart(bang, args) abort "{{{
     if !opts.clean && g:restart_sessionoptions != ''
         let spawn_args = s:add_session_args(spawn_args)
     endif
-    call s:delete_all_buffers(a:bang)
+    if !s:delete_all_buffers(a:bang)
+        return
+    endif
     if s:check_window_maximized()
         let spawn_args = s:build_args_window_maximized(spawn_args)
     endif
@@ -238,9 +240,10 @@ function! s:delete_all_buffers(bang)
         catch
             " 'Cancel' was selected.
             " (E517: No buffers were wiped out)
-            return
+            return 0
         endtry
     endif
+    return 1
 endfunction
 
 if s:is_win
