@@ -152,7 +152,9 @@ function! restart#restart(bang, args) abort "{{{
         let spawn_args = s:add_session_args(spawn_args)
     endif
     call s:delete_all_buffers(a:bang)
-    let spawn_args = s:build_args_window_maximized(spawn_args)
+    if s:check_window_maximized()
+        let spawn_args = s:build_args_window_maximized(spawn_args)
+    endif
 
     if g:restart_cd !=# ''
         cd `=g:restart_cd`
@@ -221,11 +223,7 @@ if s:is_win
     endfunction
 
     function! s:build_args_window_maximized(spawn_args)
-        let spawn_args = a:spawn_args
-        if s:check_window_maximized() && s:is_win
-            let spawn_args .= '-c "simalt ~x" '
-        endif
-        return spawn_args
+        return a:spawn_args . '-c "simalt ~x" '
     endfunction
 else
     " TODO
