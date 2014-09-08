@@ -149,7 +149,7 @@ function! restart#restart(bang, args) abort "{{{
     endfor
 
     if g:restart_sessionoptions != ''
-        call s:make_session_file()
+        let spawn_args = s:add_session_args(spawn_args)
     endif
     call s:delete_all_buffers(a:bang)
     let spawn_args = s:build_args_window_maximized(spawn_args)
@@ -175,7 +175,8 @@ function! s:save_window_values() "{{{
     \]
 endfunction "}}}
 
-function! s:make_session_file()
+function! s:add_session_args(spawn_args)
+    let spawn_args = a:spawn_args
     " The reason why not use tempname() is that
     " the created file will be removed by Vim at exit.
     let session_file = fnamemodify('restart_session.vim', ':p')
@@ -193,6 +194,7 @@ function! s:make_session_file()
     finally
         let &sessionoptions = ssop
     endtry
+    return spawn_args
 endfunction
 
 " Delete all buffers to delete the swap files.
