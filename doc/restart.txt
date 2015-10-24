@@ -127,6 +127,11 @@ g:restart_menu_lang		*g:restart_menu_lang*
 	If the value is not any of above values,
 	fallback to English menu.
 
+g:restart_check_window_maximized		*g:restart_check_window_maximized*
+					(default: 1)
+	If the value is non-zero, check current gVim window is maximized
+	and save its state after restart.
+
 
 }}}
 ------------------------------------------------------------------------------
