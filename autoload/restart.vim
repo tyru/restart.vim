@@ -217,10 +217,14 @@ endfunction
 
 if s:is_win
     function! s:check_window_maximized()
-        return libcallnr('User32.dll', 'IsZoomed', v:windowid)
+        return g:restart_check_window_maximized ?
+        \   libcallnr('User32.dll', 'IsZoomed', v:windowid) : 0
     endfunction
 
     function! s:build_args_window_maximized(spawn_args)
+        if !g:restart_check_window_maximized
+            return a:spawn_args
+        endif
         let spawn_args = a:spawn_args
         if s:check_window_maximized() && s:is_win
             let spawn_args .= '-c "simalt ~x" '

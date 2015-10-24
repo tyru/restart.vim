@@ -29,6 +29,9 @@ endif
 if !exists('g:restart_cd')
     let g:restart_cd = ''
 endif
+if !exists('g:restart_check_window_maximized')
+    let g:restart_check_window_maximized = 1
+endif
 
 if g:restart_save_window_values
     call add(g:restart_save_fn, 's:save_window_values')
