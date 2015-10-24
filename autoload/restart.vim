@@ -177,12 +177,11 @@ endfunction "}}}
 
 function! s:add_session_args(spawn_args)
     let spawn_args = a:spawn_args
-    " The reason why not use tempname() is that
-    " the created file will be removed by Vim at exit.
-    let session_file = fnamemodify('restart_session.vim', ':p')
+    let basename = tempname()
+    let session_file = fnamemodify(basename . '.vim', ':p')
     let i = 0
     while filereadable(session_file)
-        let session_file = fnamemodify('restart_session_' . i . '.vim', ':p')
+        let session_file = fnamemodify(basename . '_' . i . '.vim', ':p')
         let i += 1
     endwhile
     let ssop = &sessionoptions
