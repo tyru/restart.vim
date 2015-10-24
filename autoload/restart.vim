@@ -226,7 +226,7 @@ if s:is_win
             return a:spawn_args
         endif
         let spawn_args = a:spawn_args
-        if s:check_window_maximized() && s:is_win
+        if s:check_window_maximized()
             let spawn_args .= '-c "simalt ~x" '
         endif
         return spawn_args
