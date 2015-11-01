@@ -132,7 +132,7 @@ function! s:parse_buffers_info() "{{{
 endfunction "}}}
 
 function! restart#restart(bang, args) abort "{{{
-    let spawn_args = g:restart_vim_progname . ' ' . a:args . ' '
+    let spawn_args = g:restart_vim_progname . ' ' . a:args
     for Fn in g:restart_save_fn
         let r = call(Fn, [])
         if type(r) !=# type([])
@@ -143,7 +143,7 @@ function! restart#restart(bang, args) abort "{{{
             continue
         endif
         for ex in r
-            let spawn_args .= '-c' . ' "' . ex . '" '
+            let spawn_args .= ' -c' . ' "silent ' . ex . '"'
         endfor
         unlet r Fn
     endfor
@@ -151,16 +151,21 @@ function! restart#restart(bang, args) abort "{{{
     if g:restart_sessionoptions != ''
         let spawn_args = s:add_session_args(spawn_args)
     endif
+    let spawn_args = s:add_window_maximized_args(spawn_args)
+    let new_servername = s:generate_unique_servername()
+    let spawn_args .= ' --servername ' . new_servername
+
     call s:delete_all_buffers(a:bang)
-    let spawn_args = s:build_args_window_maximized(spawn_args)
 
     if g:restart_cd !=# ''
         cd `=g:restart_cd`
     endif
     call s:spawn(spawn_args)
 
-    " NOTE: Need bang because surprisingly
-    " ':silent! 1,$bwipeout' does not wipeout current unnamed buffer!
+    " Wait until a new instance starts.
+    while index(split(serverlist(), '\n'), new_servername) < 0
+        sleep 250m
+    endwhile
     execute 'qall' . (a:bang ? '!' : '')
 endfunction "}}}
 
@@ -188,8 +193,8 @@ function! s:add_session_args(spawn_args)
     try
         let &sessionoptions = g:restart_sessionoptions
         mksession `=session_file`
-        let spawn_args .= join(['-S', '"' . session_file . '"',
-        \                  '-c "', 'call delete(' . string(session_file) . ')"']) . ' '
+        let spawn_args .= ' ' . join(['-S', '"' . session_file . '"',
+        \                  '-c "', 'silent call delete(' . string(session_file) . ')"'])
     finally
         let &sessionoptions = ssop
     endtry
@@ -220,13 +225,13 @@ if s:is_win
         \   libcallnr('User32.dll', 'IsZoomed', v:windowid) : 0
     endfunction
 
-    function! s:build_args_window_maximized(spawn_args)
+    function! s:add_window_maximized_args(spawn_args)
         if !g:restart_check_window_maximized
             return a:spawn_args
         endif
         let spawn_args = a:spawn_args
         if s:check_window_maximized()
-            let spawn_args .= '-c "simalt ~x" '
+            let spawn_args .= ' -c "simalt ~x"'
         endif
         return spawn_args
     endfunction
@@ -237,10 +242,18 @@ else
     endfunction
 
     " TODO
-    function! s:build_args_window_maximized(spawn_args)
+    function! s:add_window_maximized_args(spawn_args)
         return a:spawn_args
     endfunction
 endif
+
+function! s:generate_unique_servername()
+    let n = 1
+    while index(split(serverlist(), '\n'), 'GVIM' . n) >= 0
+        let n += 1
+    endwhile
+    return 'GVIM' . n
+endfunction
 
 
 " Restore 'cpoptions' {{{
