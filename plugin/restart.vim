@@ -60,7 +60,7 @@ if !get(g:, 'restart_no_default_menus', (&guioptions =~# 'M'))
         runtime! lang/restart_menu_ja.vim
     endif
     execute 'anoremenu <silent> 10.601 File.&Restart<Tab>:Restart :' . g:restart_command . '<CR>'
-    nnoremenu 10.602 File.-RestartSep- :
+    anoremenu 10.602 File.-RestartSep- <Nop>
 endif
 " }}}
 
