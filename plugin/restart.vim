@@ -56,11 +56,10 @@ endif
 
 " Menu {{{
 if !get(g:, 'restart_no_default_menus', (&guioptions =~# 'M'))
-    if get(g:, 'restart_menu_lang', &langmenu !=# '' ? &langmenu : v:lang) ==# 'ja'
-        execute "nnoremenu <silent> 10.601 File.再起動(&R)<Tab>:Restart :" . g:restart_command . '<CR>'
-    else
-        execute "nnoremenu <silent> 10.601 File.&Restart<Tab>:Restart :" . g:restart_command . '<CR>'
+    if get(g:, 'restart_menu_lang', &langmenu !=# '' ? &langmenu : v:lang) =~# '^ja'
+        runtime! lang/restart_menu_ja.vim
     endif
+    execute 'anoremenu <silent> 10.601 File.&Restart<Tab>:Restart :' . g:restart_command . '<CR>'
     nnoremenu 10.602 File.-RestartSep- :
 endif
 " }}}
