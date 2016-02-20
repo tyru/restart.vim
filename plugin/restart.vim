@@ -56,11 +56,18 @@ endif
 
 " Menu {{{
 if !get(g:, 'restart_no_default_menus', (&guioptions =~# 'M'))
-    if get(g:, 'restart_menu_lang', &langmenu !=# '' ? &langmenu : v:lang) =~# '^ja'
-        runtime! lang/restart_menu_ja.vim
-    endif
-    execute 'anoremenu <silent> 10.601 File.&Restart<Tab>:Restart :' . g:restart_command . '<CR>'
-    anoremenu 10.602 File.-RestartSep- <Nop>
+    function! s:add_menu() abort
+        if get(g:, 'restart_menu_lang', &langmenu !=# '' ? &langmenu : v:lang) =~# '^ja'
+            runtime! lang/restart_menu_ja.vim
+        endif
+        execute 'anoremenu <silent> 10.601 File.&Restart<Tab>:Restart :' . g:restart_command . '<CR>'
+        anoremenu 10.602 File.-RestartSep- <Nop>
+    endfunction
+
+    augroup restart-menu
+        autocmd!
+        autocmd GUIEnter * call s:add_menu()
+    augroup END
 endif
 " }}}
 
