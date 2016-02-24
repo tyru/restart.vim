@@ -106,9 +106,11 @@ g:restart_cd		*g:restart_cd*
 	|:cd| to the directory before restarting.
 
 g:restart_no_default_menus		*g:restart_no_default_menus*
-					(default: 0)
+					(default: &guioptions =~# 'M')
 	If this variable is non-zero,
 	Do not add default menus.
+	Default value is non-zero if 'guioptions' includes "M".
+	Otherwise the value is zero.
 
 g:restart_menu_lang		*g:restart_menu_lang*
 					(default: 'langmenu' or |v:lang|)
