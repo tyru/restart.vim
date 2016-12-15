@@ -39,8 +39,12 @@ function! s:spawn(command) "{{{
         " cmd.exe appears and won't close.
         execute printf('silent !start %s', a:command)
     elseif s:is_macvim
-        " TODO: Support a:command
-        macaction newWindow:
+        if executable(g:restart_vim_progname)
+            execute printf('silent !%s', a:command)
+        else
+            " Fallback.
+            macaction newWindow:
+        endif
     else
         execute printf('silent !%s', a:command)
     endif

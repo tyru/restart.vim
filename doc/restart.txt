@@ -86,7 +86,7 @@ g:restart_save_fn	*g:restart_save_fn*
 	- getwinposy()
 
 g:restart_vim_progname	*g:restart_vim_progname*
-					(default: "gvim")
+					(default: "gvim" (or "mvim" on Mac))
 	Vim program name to restart.
 
 	FIXME:
