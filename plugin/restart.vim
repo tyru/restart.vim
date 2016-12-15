@@ -19,6 +19,9 @@ if !exists('g:restart_save_fn')
 endif
 if !exists('g:restart_vim_progname')
     let g:restart_vim_progname = 'gvim'
+    if has('gui_macvim') && executable('mvim')
+        let g:restart_vim_progname = 'mvim'
+    endif
 endif
 if !exists('g:restart_sessionoptions')
     let g:restart_sessionoptions = ''
