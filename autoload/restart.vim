@@ -234,9 +234,9 @@ if s:is_win
             set shellxquote=
             let output = system(printf('(add-type -memberDefinition ''[DllImport(""""User32.dll"""")] public static extern int IsZoomed(IntPtr hWnd);'' -name Win32Functions -passthru )::IsZoomed(%d)', v:windowid))
             if '1' == get(split(output, "\n"), 0, '0')
-                return v:true
+                return 1
             else
-                return v:false
+                return 0
             endif
         finally
             let &shell = saved_shell
