@@ -224,9 +224,39 @@ function! s:delete_all_buffers(bang)
 endfunction
 
 if s:is_win
+    function! s:is_zoomed_using_powershell() abort
+        let saved_shell = &shell
+        let saved_shellcmdflag = &shellcmdflag
+        let saved_shellxquote = &shellxquote
+        try
+            set shell=powershell.exe
+            set shellcmdflag=-version\ 2.0\ -NoLogo\ -Command
+            set shellxquote=
+            let output = system(printf('(add-type -memberDefinition ''[DllImport(""""User32.dll"""")] public static extern int IsZoomed(IntPtr hWnd);'' -name Win32Functions -passthru )::IsZoomed(%d)', v:windowid))
+            if '1' == get(split(output, "\n"), 0, '0')
+                return 1
+            else
+                return 0
+            endif
+        finally
+            let &shell = saved_shell
+            let &shellcmdflag = saved_shellcmdflag
+            let &shellxquote = saved_shellxquote
+        endtry
+    endfunction
+
     function! s:check_window_maximized()
-        return g:restart_check_window_maximized ?
-        \   libcallnr('User32.dll', 'IsZoomed', v:windowid) : 0
+        if g:restart_check_window_maximized
+            " use powershell as much as possible, due to crash the Vim by libcallnr()
+            " when difference between the dll architecture and the platform architecture.          
+            if executable('powershell')
+                return s:is_zoomed_using_powershell()
+            else
+                return libcallnr('User32.dll', 'IsZoomed', v:windowid)
+            endif
+        else
+            return 0
+        endif
     endfunction
 
     function! s:add_window_maximized_args(spawn_args)
