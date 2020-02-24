@@ -248,7 +248,7 @@ if s:is_win
     function! s:check_window_maximized()
         if g:restart_check_window_maximized
             " use powershell as much as possible, due to crash the Vim by libcallnr()
-            " when difference between the dll architecture and the flatform architecture.          
+            " when difference between the dll architecture and the platform architecture.          
             if executable('powershell')
                 return s:is_zoomed_using_powershell()
             else
